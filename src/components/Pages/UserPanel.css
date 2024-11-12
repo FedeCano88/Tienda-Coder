@@ -1,0 +1,56 @@
+.user-panel-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #2c1d41;
+    color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .user-panel-container h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #ffffff;
+  }
+  
+  .purchase-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .purchase-table th,
+  .purchase-table td {
+    padding: 1rem;
+    border: 1px solid #4e3a61;
+    text-align: left;
+  }
+  
+  .purchase-table th {
+    background-color: #3a2d56;
+    color: #c1bccc;
+    font-weight: bold;
+  }
+  
+  .purchase-table td {
+    background-color: #4e3a61;
+    color: #ffffff;
+  }
+  
+  .purchase-table ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .purchase-table ul li {
+    margin: 0.5rem 0;
+  }
+  
+  .purchase-table .course-item {
+    font-weight: 600;
+  }
+  
+  
+  
