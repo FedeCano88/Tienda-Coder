@@ -9,7 +9,7 @@ import Confirmation from "./components/Common/Confirmation/Confirmation";
 import UserPanel from "./components/Pages/UserPanel";
 import Home from "./components/Pages/Home";
 import Courses from "./components/Pages/Courses";
-import CourseCard from "./components/Common/CourseCard/CourseCard"; // Import CourseCard here if needed
+import CourseCard from "./components/Common/CourseCard/CourseCard";
 import Swal from "sweetalert2";
 
 Modal.setAppElement("#root");
@@ -19,7 +19,6 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [showCartModal, setShowCartModal] = useState(false);
-  const [activeCard, setActiveCard] = useState(null);
 
   const handleLogin = (name) => {
     setLoggedInUser(name);
@@ -43,10 +42,6 @@ function App() {
       setCart([...cart, course]);
       Swal.fire("Curso añadido al carrito", `${course.title} ha sido añadido al carrito`, "success");
     }
-  };
-
-  const toggleCard = (index) => {
-    setActiveCard(activeCard === index ? null : index);
   };
 
   const removeFromCart = (index) => {
@@ -90,8 +85,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/cursos" element={<Courses onAddToCart={addToCart} toggleCard={toggleCard} activeCard={activeCard} />} />
-        <Route path="/cursos/:courseId" element={<CourseCard onAddToCart={addToCart} />} />
+        <Route path="/cursos" element={<Courses onAddToCart={addToCart} />} />
+        <Route path="/cursos/:slug" element={<CourseCard onAddToCart={addToCart} />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/perfil" element={<UserPanel />} />
         <Route path="/registrar" element={<AuthForm onLogin={handleLogin} />} />
@@ -118,4 +113,5 @@ function App() {
 }
 
 export default App;
+
 
