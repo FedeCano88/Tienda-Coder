@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CourseCard from "../CourseCard/CourseCard";
 import "./CourseList.css";
 
-// Lista de cursos con ID y Categoría añadidos
+
 const courses = [
   {
     id: 1,
