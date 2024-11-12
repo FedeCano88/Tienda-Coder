@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
@@ -10,6 +9,7 @@ import Confirmation from "./components/Common/Confirmation/Confirmation";
 import UserPanel from "./components/Pages/UserPanel";
 import Home from "./components/Pages/Home";
 import Courses from "./components/Pages/Courses";
+import CourseCard from "./components/Common/CourseCard/CourseCard"; // Import CourseCard here if needed
 import Swal from "sweetalert2";
 
 Modal.setAppElement("#root");
@@ -91,6 +91,7 @@ function App() {
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/cursos" element={<Courses onAddToCart={addToCart} toggleCard={toggleCard} activeCard={activeCard} />} />
+        <Route path="/cursos/:courseId" element={<CourseCard onAddToCart={addToCart} />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/perfil" element={<UserPanel />} />
         <Route path="/registrar" element={<AuthForm onLogin={handleLogin} />} />
@@ -117,3 +118,4 @@ function App() {
 }
 
 export default App;
+

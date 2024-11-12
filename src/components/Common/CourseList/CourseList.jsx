@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import CourseCard from "../CourseCard/CourseCard";
+import { useNavigate } from "react-router-dom";
 import "./CourseList.css";
-
 
 const courses = [
   {
@@ -51,11 +50,11 @@ const courses = [
   },
 ];
 
-function CourseList({ onAddToCart, activeCard, toggleCard }) {
+function CourseList({ onAddToCart }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortedCourses, setSortedCourses] = useState(courses);
+  const navigate = useNavigate();
 
-  // Maneja los cambios en la barra de búsqueda
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -68,16 +67,18 @@ function CourseList({ onAddToCart, activeCard, toggleCard }) {
     setSortedCourses(filteredCourses);
   };
 
-  // Ordena los cursos por precio de menor a mayor
   const sortAscending = () => {
     const sorted = [...sortedCourses].sort((a, b) => a.price - b.price);
     setSortedCourses(sorted);
   };
 
-  // Ordena los cursos por precio de mayor a menor
   const sortDescending = () => {
     const sorted = [...sortedCourses].sort((a, b) => b.price - a.price);
     setSortedCourses(sorted);
+  };
+
+  const handleMoreDetails = (courseId) => {
+    navigate(`/cursos/${courseId}`);
   };
 
   return (
@@ -99,18 +100,20 @@ function CourseList({ onAddToCart, activeCard, toggleCard }) {
       </div>
       <div className="course-list row justify-content-center">
         {sortedCourses.map((course) => (
-          <CourseCard
-            key={course.id}
-            title={course.title}
-            description={course.description}
-            price={course.price}
-            image={course.image}
-            details={course.details}
-            categoria={course.categoria}
-            onAddToCart={() => onAddToCart(course)}
-            isActive={activeCard === course.id}
-            toggleCard={() => toggleCard(course.id)}
-          />
+          <div key={course.id} className="col-md-4 d-flex justify-content-center">
+            <div className="card mb-4" style={{ width: "18rem" }}>
+              <img src={course.image} className="card-img-top" alt={course.title} />
+              <div className="card-body">
+                <h5 className="card-title">{course.title}</h5>
+                <p className="card-text">{course.description}</p>
+                <p className="card-text"><strong>${course.price}</strong> USD</p>
+                <button className="btn btn-primary mb-2" onClick={() => onAddToCart(course)}>Comprar</button>
+                <button className="btn btn-secondary" onClick={() => handleMoreDetails(course.id)}>
+                  Más detalles
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -118,5 +121,7 @@ function CourseList({ onAddToCart, activeCard, toggleCard }) {
 }
 
 export default CourseList;
+
+
 
 
