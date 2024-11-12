@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+Sobre mí:
+--------
+Hola, soy Federico, un desarrollador web junior y estudiante de Coderhouse. Estoy en constante aprendizaje y crecimiento en el mundo del desarrollo web, con el objetivo de mejorar mis habilidades y adquirir nuevos conocimientos para crear experiencias digitales innovadoras y efectivas. Mi pasión por el desarrollo web me impulsa a seguir aprendiendo y a enfrentar nuevos desafíos en este emocionante campo.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Descripción del proyecto:
+-------------------------
+Este proyecto es una página web de e-commerce llamada Tienda Coder, dedicada a la venta de cursos de programación. Está diseñada con React.js, Bootstrap para los estilos y algunos efectos visuales implementados con SweetAlert2.
 
-## Available Scripts
+Funcionalidades principales:
+----------------------------
 
-In the project directory, you can run:
+Navbar:
+-------
+Contiene tres secciones: "Cursos", "Login/Registro", y "Carrito".
+El usuario puede alternar entre la vista de los cursos y el formulario de login o registro.
+El ícono del carrito muestra la cantidad de cursos añadidos por el usuario y permite visualizar o eliminar cursos del carrito.
 
-### `npm start`
+Registro y Login:
+-----------------
+El formulario de registro solicita los siguientes datos: Nombre, Apellido, Teléfono, Correo electrónico y Contraseña.
+La contraseña debe cumplir con ciertos requisitos: mínimo 8 caracteres y al menos una mayúscula.
+Los usuarios registrados pueden iniciar sesión con su correo electrónico y contraseña.
+La información de los usuarios se guarda en localStorage para simular una base de datos local.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Carrito de compras:
+-------------------
+Los usuarios pueden agregar cursos al carrito, visualizar los cursos seleccionados y eliminarlos si lo desean.
+El carrito muestra el total de la compra y permite realizar la compra, vaciando el carrito una vez finalizada.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Cursos:
+-------
+La página principal muestra una lista de cards con cursos de diferentes áreas (Desarrollo Web, Backend, SQL, Testing, Cloud Computing).
+Cada card incluye un botón para agregar el curso al carrito y un botón de "Más información" que despliega detalles adicionales sobre el curso.
 
-### `npm test`
+Footer:
+-------
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+El footer de la página incluye el año actual y la leyenda de derechos reservados para la "Tienda Coder".
+Tecnologías usadas:
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+React.js: Biblioteca principal para construir la interfaz de usuario.
+Bootstrap: Framework CSS utilizado para el diseño responsivo y los componentes visuales.
+SweetAlert2: Utilizado para mostrar alertas elegantes y dinámicas.
+LocalStorage: Para almacenar la información del usuario de manera local en el navegador.
