@@ -7,7 +7,7 @@ function Navbar({ onShowCourses, onShowRegister, cartItemCount, toggleCart, logg
     <nav className="navbar navbar-expand-lg navbar-dark flex-column">
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '200px' }}>
         <Link to="/">
-          <img src="./logo.png" alt="Tienda Coder Logo" height="100" className="mb-2" />
+          <img src="./Logo.png" alt="Tienda Coder Logo" height="100" className="mb-2" />
         </Link>
         <h1 className="text-center" style={{ fontSize: "2.5rem", color: "#ffffff" }}>Tienda Coder</h1>
       </div>
