@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import Modal from "react-modal";
 import Navbar from "./components/Layouts/Navbar/Navbar";
 import Footer from "./components/Layouts/Footer/Footer";
 import AuthForm from "./components/Common/AuthForm/AuthForm";
@@ -9,19 +9,43 @@ import Confirmation from "./components/Common/Confirmation/Confirmation";
 import UserPanel from "./components/Pages/UserPanel";
 import Home from "./components/Pages/Home";
 import Courses from "./components/Pages/Courses";
-import CourseCard from "./components/Common/CourseCard/CourseCard";
+import Checkout from "./components/Common/Checkout/Checkout";
 import Swal from "sweetalert2";
+import Modal from "react-modal"; // Importar React Modal
+import db from "./firebaseConfig";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
+// Configurar React Modal
 Modal.setAppElement("#root");
 
 function App() {
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [cart, setCart] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [showCartModal, setShowCartModal] = useState(false);
+
+  const fetchCourses = async () => {
+    try {
+      const courseCollection = collection(db, "CourseList");
+      const courseSnapshot = await getDocs(courseCollection);
+      const courseList = courseSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCourses(courseList);
+    } catch (error) {
+      console.error("Error fetching courses: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
   const handleLogin = (name) => {
     setLoggedInUser(name);
+    navigate("/home");
   };
 
   const handleLogout = () => {
@@ -51,28 +75,48 @@ function App() {
   };
 
   const handlePurchase = () => {
-    const storedUser = JSON.parse(localStorage.getItem("appUserData"));
-    const purchase = {
-      items: cart,
+    if (cart.length === 0) {
+      Swal.fire("Carrito vacío", "No tienes cursos en el carrito", "warning");
+      return;
+    }
+
+    setShowCartModal(false);
+    navigate("/checkout");
+  };
+
+  const confirmPurchase = async (buyerData) => {
+    const user = JSON.parse(localStorage.getItem("appUserData"));
+    const purchaseData = {
+      buyer: buyerData.name,
+      email: buyerData.email || user.email,
+      address: buyerData.address,
+      paymentMethod: buyerData.paymentMethod,
       date: new Date().toLocaleString(),
+      items: cart,
+      total: cart.reduce((sum, item) => sum + item.price, 0),
     };
 
-    const purchaseHistory = JSON.parse(localStorage.getItem("purchaseHistory")) || {};
-    purchaseHistory[storedUser.email] = purchaseHistory[storedUser.email] || [];
-    purchaseHistory[storedUser.email].push(purchase);
+    try {
+      const purchaseCollection = collection(db, "Purchases");
+      await addDoc(purchaseCollection, purchaseData);
 
-    localStorage.setItem("purchaseHistory", JSON.stringify(purchaseHistory));
-
-    Swal.fire("Compra realizada", "¡Gracias por tu compra!", "success").then(() => {
-      setCart([]);
-      navigate("/confirmation");
-    });
-    setShowCartModal(false);
+      Swal.fire("Compra realizada", "¡Gracias por tu compra!", "success").then(() => {
+        setCart([]);
+        navigate("/perfil");
+      });
+    } catch (error) {
+      console.error("Error al guardar la compra: ", error);
+      Swal.fire("Error", "No se pudo completar la compra. Intenta nuevamente.", "error");
+    }
   };
 
   return (
     <div>
-      <Navbar cartItemCount={cart.length} toggleCart={() => setShowCartModal(true)} loggedInUser={loggedInUser} />
+      <Navbar
+        cartItemCount={cart.length}
+        loggedInUser={loggedInUser}
+        toggleCart={() => setShowCartModal(true)}
+      />
       {loggedInUser && (
         <div className="text-center mt-3">
           <h3>Bienvenido, {loggedInUser}</h3>
@@ -85,13 +129,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/cursos" element={<Courses onAddToCart={addToCart} />} />
-        <Route path="/cursos/:slug" element={<CourseCard onAddToCart={addToCart} />} />
+        <Route path="/cursos" element={<Courses courses={courses} onAddToCart={addToCart} />} />
+        <Route path="/checkout" element={<Checkout cartItems={cart} onConfirmPurchase={confirmPurchase} />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/perfil" element={<UserPanel />} />
         <Route path="/registrar" element={<AuthForm onLogin={handleLogin} />} />
         <Route path="/login" element={<AuthForm onLogin={handleLogin} />} />
-        <Route path="/carrito" element={<Cart cartItems={cart} onRemoveItem={removeFromCart} onPurchase={handlePurchase} />} />
+        <Route
+          path="/carrito"
+          element={<Cart cartItems={cart} onRemoveItem={removeFromCart} onPurchase={handlePurchase} />}
+        />
       </Routes>
 
       <Footer />
@@ -103,8 +150,15 @@ function App() {
         overlayClassName="cart-modal-overlay"
         className="cart-modal-content"
       >
-        <Cart cartItems={cart} onRemoveItem={removeFromCart} onPurchase={handlePurchase} />
-        <button onClick={() => setShowCartModal(false)} className="btn btn-secondary mt-3 w-100">
+        <Cart
+          cartItems={cart}
+          onRemoveItem={removeFromCart}
+          onPurchase={handlePurchase}
+        />
+        <button
+          onClick={() => setShowCartModal(false)}
+          className="btn btn-secondary mt-3 w-100"
+        >
           Cerrar
         </button>
       </Modal>
@@ -113,5 +167,3 @@ function App() {
 }
 
 export default App;
-
-

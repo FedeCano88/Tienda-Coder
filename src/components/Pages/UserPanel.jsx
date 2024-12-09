@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from "react";
-import "./UserPanel.css";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import db from "../../firebaseConfig";
+import "./UserPanel.css"
 
-function UserPanel() {
-  const [purchaseHistory, setPurchaseHistory] = useState([]);
-  
+const UserPanel = () => {
+  const [purchases, setPurchases] = useState([]);
+  const user = JSON.parse(localStorage.getItem("appUserData"));
+
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("appUserData"));
-    const history = JSON.parse(localStorage.getItem("purchaseHistory")) || {};
-    setPurchaseHistory(history[storedUser.email] || []);
-  }, []);
-  
+    const fetchPurchases = async () => {
+      if (!user) return;
+
+      try {
+        const q = query(
+          collection(db, "Purchases"),
+          where("email", "==", user.email) // Filtrar por el email del usuario logueado
+        );
+        const querySnapshot = await getDocs(q);
+        const userPurchases = querySnapshot.docs.map((doc) => doc.data());
+        setPurchases(userPurchases);
+      } catch (error) {
+        console.error("Error al obtener las compras: ", error);
+      }
+    };
+
+    fetchPurchases();
+  }, [user]);
+
   return (
-    <div className="user-panel-container">
+    <div className="profile-container">
       <h2>Historial de Compras</h2>
-      {purchaseHistory.length === 0 ? (
-        <p>No has realizado ninguna compra aún.</p>
-      ) : (
-        <table className="purchase-table">
+      {purchases.length > 0 ? (
+        <table>
           <thead>
             <tr>
               <th>Fecha y Hora</th>
@@ -24,24 +39,27 @@ function UserPanel() {
             </tr>
           </thead>
           <tbody>
-            {purchaseHistory.map((purchase, index) => (
+            {purchases.map((purchase, index) => (
               <tr key={index}>
                 <td>{purchase.date}</td>
                 <td>
-                  <ul>
-                    {purchase.items.map((item, i) => (
-                      <li key={i} className="course-item">{item.title} - ${item.price} USD</li>
-                    ))}
-                  </ul>
+                  {purchase.items.map((item, i) => (
+                    <div key={i}>
+                      {item.title} - ${item.price} USD
+                    </div>
+                  ))}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>No has realizado compras aún.</p>
       )}
     </div>
   );
-}
+};
 
 export default UserPanel;
+
 
