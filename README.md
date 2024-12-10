@@ -1,44 +1,96 @@
-Sobre mí:
---------
-Hola, soy Federico, un desarrollador web junior y estudiante de Coderhouse. Estoy en constante aprendizaje y crecimiento en el mundo del desarrollo web, con el objetivo de mejorar mis habilidades y adquirir nuevos conocimientos para crear experiencias digitales innovadoras y efectivas. Mi pasión por el desarrollo web me impulsa a seguir aprendiendo y a enfrentar nuevos desafíos en este emocionante campo.
 
-Descripción del proyecto:
--------------------------
-Este proyecto es una página web de e-commerce llamada Tienda Coder, dedicada a la venta de cursos de programación. Está diseñada con React.js, Bootstrap para los estilos y algunos efectos visuales implementados con SweetAlert2.
+# 🌟 Tienda Coder
 
-Funcionalidades principales:
-----------------------------
+¡Bienvenido a **Tienda Coder**! Este es un proyecto desarrollado por **Federico Cano**, un apasionado estudiante de **Coderhouse**, con el objetivo de seguir aprendiendo y mejorando en el desarrollo web.
 
-Navbar:
--------
-Contiene tres secciones: "Cursos", "Login/Registro", y "Carrito".
-El usuario puede alternar entre la vista de los cursos y el formulario de login o registro.
-El ícono del carrito muestra la cantidad de cursos añadidos por el usuario y permite visualizar o eliminar cursos del carrito.
+🌐 **Visita la aplicación en vivo aquí**: [Tienda Coder](https://tienda-coder.vercel.app/home)
 
-Registro y Login:
------------------
-El formulario de registro solicita los siguientes datos: Nombre, Apellido, Teléfono, Correo electrónico y Contraseña.
-La contraseña debe cumplir con ciertos requisitos: mínimo 8 caracteres y al menos una mayúscula.
-Los usuarios registrados pueden iniciar sesión con su correo electrónico y contraseña.
-La información de los usuarios se guarda en localStorage para simular una base de datos local.
+---
 
-Carrito de compras:
--------------------
-Los usuarios pueden agregar cursos al carrito, visualizar los cursos seleccionados y eliminarlos si lo desean.
-El carrito muestra el total de la compra y permite realizar la compra, vaciando el carrito una vez finalizada.
+## 🚀 Tecnologías Utilizadas
 
-Cursos:
--------
-La página principal muestra una lista de cards con cursos de diferentes áreas (Desarrollo Web, Backend, SQL, Testing, Cloud Computing).
-Cada card incluye un botón para agregar el curso al carrito y un botón de "Más información" que despliega detalles adicionales sobre el curso.
+Este proyecto fue creado utilizando las siguientes herramientas y tecnologías:
 
-Footer:
--------
+### **Frontend**
+- **React.js**: Para la creación de la interfaz de usuario.
+- **React Router DOM**: Manejo de rutas en la aplicación.
+- **Bootstrap**: Para el diseño responsivo y estilizado.
+- **SweetAlert2**: Para crear alertas interactivas y elegantes.
+- **CSS**: Estilización personalizada para mejorar el diseño.
 
-El footer de la página incluye el año actual y la leyenda de derechos reservados para la "Tienda Coder".
-Tecnologías usadas:
+### **Backend**
+- **Firebase Firestore**: Base de datos para gestionar información.
+- **Firebase Authentication**: Gestión de usuarios y autenticación.
 
-React.js: Biblioteca principal para construir la interfaz de usuario.
-Bootstrap: Framework CSS utilizado para el diseño responsivo y los componentes visuales.
-SweetAlert2: Utilizado para mostrar alertas elegantes y dinámicas.
-LocalStorage: Para almacenar la información del usuario de manera local en el navegador.
+### **Despliegue**
+- **Vercel**: Plataforma de despliegue para frontend.
+- **Firebase Hosting**: Alternativa para el hosting del proyecto (si se usa).
+
+---
+
+## 🧩 Características Principales
+
+### 📚 **Exploración de Cursos**
+Encuentra una amplia gama de cursos, desde Desarrollo Web hasta Cloud Computing.
+
+### 🛒 **Carrito de Compras**
+- Agrega y gestiona cursos seleccionados para comprar.
+- Despliegue dinámico del carrito y cálculo de total.
+
+### 🔐 **Registro y Login**
+- Registro de usuarios con validación de datos.
+- Login seguro utilizando Firebase Authentication.
+
+### 🛠️ **Gestión Dinámica**
+- Uso de **React Context** para gestionar el estado global del usuario y del carrito.
+- Manejo de **hooks** como `useState`, `useEffect` y `useContext` para el control dinámico de la aplicación.
+- Implementación de **eventos personalizados** para mejorar la interacción del usuario.
+
+### 🌐 **Rutas Dinámicas**
+- Navega entre diferentes secciones como Home, Cursos, Login y más.
+- Manejo de rutas protegidas para que solo usuarios registrados puedan acceder al carrito y realizar compras.
+
+---
+
+## 🌟 Sobre el Proyecto
+
+Este proyecto es un e-commerce enfocado en la venta de cursos de programación, creado para practicar y aplicar los conocimientos adquiridos en **Coderhouse**. Tienda Coder refleja mi pasión por el aprendizaje continuo y el desarrollo web.
+
+🎯 **Mi objetivo:** Seguir creciendo como desarrollador web, enfrentando nuevos retos y creando experiencias digitales únicas.
+
+---
+
+## 🛠️ Cómo Ejecutar el Proyecto Localmente
+
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/tu-usuario/tienda-coder.git
+   cd tienda-coder
+   ```
+
+2. **Instala las dependencias**:
+   ```bash
+   npm install
+   ```
+
+3. **Configura las variables de entorno**:
+   - Crea un archivo `.env.local` en la raíz del proyecto y añade tus credenciales de Firebase.
+
+4. **Ejecuta el servidor de desarrollo**:
+   ```bash
+   npm start
+   ```
+
+5. **Accede a la aplicación**:
+   - Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+---
+
+## ✨ Autor
+
+👤 **Federico Cano**  
+📚 **Estudiante de Coderhouse**  
+💡 Estoy aprendiendo tecnologías como React.js, Firebase y mucho más, con el objetivo de convertirme en un desarrollador web completo.  
+🌐 **Conéctate conmigo**: ¡Si tienes algún consejo o proyecto interesante, no dudes en contactarme!
+
+---
