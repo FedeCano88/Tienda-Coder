@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import "./AuthForm.css";
 
 function AuthForm({ onLogin }) {
@@ -12,41 +13,42 @@ function AuthForm({ onLogin }) {
 
   const validatePassword = (password) => /^(?=.*[A-Z]).{8,}$/.test(password);
 
-  const handleRegister = () => {
-    const normalizedEmail = email.toLowerCase();
-    const storedUser = JSON.parse(localStorage.getItem("appUserData")) || null;
-
-    // Verificar si el correo ya está registrado
-    if (storedUser && storedUser.email === normalizedEmail) {
-      Swal.fire("Error", "Este correo electrónico ya está registrado", "error");
+  const handleRegister = async () => {
+    if (!validatePassword(password)) {
+      Swal.fire("Error", "La contraseña debe tener al menos una mayúscula y 8 caracteres.", "error");
       return;
     }
 
-    if (name && lastname && phone && normalizedEmail && password) {
-      if (!validatePassword(password)) {
-        Swal.fire("Contraseña no válida", "La contraseña debe tener al menos 8 caracteres y una letra mayúscula", "error");
-        return;
-      }
-      const userData = { name, lastname, phone, email: normalizedEmail, password };
-      localStorage.setItem("appUserData", JSON.stringify(userData)); // Guardar datos en localStorage
-      Swal.fire("Registro exitoso", `Bienvenido ${name} ${lastname}`, "success").then(() => {
-        onLogin(name); // Inicia sesión automáticamente con el nombre del usuario
+    const auth = getAuth();
+    const normalizedEmail = email.toLowerCase();
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, normalizedEmail, password);
+      const user = userCredential.user;
+
+      // Actualizar el perfil del usuario
+      await updateProfile(user, {
+        displayName: name,
       });
-    } else {
-      Swal.fire("Error", "Completa todos los campos", "error");
+
+      onLogin(user.displayName || user.email);
+      Swal.fire("Registro exitoso", "Te has registrado correctamente", "success");
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    const auth = getAuth();
     const normalizedEmail = email.toLowerCase();
-    const storedUser = JSON.parse(localStorage.getItem("appUserData")) || null;
 
-    if (storedUser && storedUser.email === normalizedEmail && storedUser.password === password) {
-      Swal.fire("Login exitoso", `Bienvenido de nuevo ${storedUser.name} ${storedUser.lastname}`, "success").then(() => {
-        onLogin(storedUser.name); // Actualiza el estado en App.jsx
-      });
-    } else {
-      Swal.fire("Error", "Credenciales incorrectas o no registrado", "error");
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, normalizedEmail, password);
+      const user = userCredential.user;
+      onLogin(user.displayName || user.email);
+      Swal.fire("Login exitoso", "Has iniciado sesión correctamente", "success");
+    } catch (error) {
+      Swal.fire("Error", "Usuario o contraseña incorrectos", "error");
     }
   };
 
@@ -56,24 +58,64 @@ function AuthForm({ onLogin }) {
         className="toggle-form-button"
         onClick={() => setIsRegister(!isRegister)}
       >
-        {isRegister ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
+        {isRegister ? "¿Ya tienes cuenta? Inicia sesión" : "¿Nuevo usuario? Regístrate"}
       </button>
-      <h2>{isRegister ? "Registro" : "Iniciar Sesión"}</h2>
-      {isRegister && (
-        <>
-          <input type="text" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="text" placeholder="Apellido" value={lastname} onChange={(e) => setLastname(e.target.value)} />
-          <input type="text" placeholder="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} />
-        </>
-      )}
-      <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={isRegister ? handleRegister : handleLogin} className="btn btn-primary">
-        {isRegister ? "Registrarse" : "Iniciar Sesión"}
-      </button>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (isRegister) {
+            handleRegister();
+          } else {
+            handleLogin();
+          }
+        }}
+      >
+        {isRegister && (
+          <>
+            <input
+              type="text"
+              placeholder="Nombre"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Apellido"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              required
+            />
+            <input
+              type="tel"
+              placeholder="Teléfono"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </>
+        )}
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">
+          {isRegister ? "Registrarse" : "Iniciar sesión"}
+        </button>
+      </form>
     </div>
   );
 }
 
 export default AuthForm;
-

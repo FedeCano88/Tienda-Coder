@@ -11,6 +11,7 @@ import Home from "./components/Pages/Home";
 import Courses from "./components/Pages/Courses";
 import CourseDetails from "./components/Pages/CourseDetails/CourseDetails"
 import Checkout from "./components/Common/Checkout/Checkout";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Swal from "sweetalert2";
 import Modal from "react-modal"; // Importar React Modal
 import db from "./firebaseConfig";
@@ -23,6 +24,20 @@ function App() {
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [cart, setCart] = useState([]);
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedInUser(user.displayName || user.email); 
+        console.log("Usuario autenticado:", user);
+      } else {
+        setLoggedInUser(null);
+        console.log("No hay usuario autenticado.");
+      }
+    });
+    return () => unsubscribe(); // Limpieza
+  }, []);
+
   const [courses, setCourses] = useState([]);
   const [showCartModal, setShowCartModal] = useState(false);
 
@@ -115,13 +130,13 @@ function App() {
     <div>
       <Navbar
         cartItemCount={cart.length}
-        loggedInUser={loggedInUser}
+        loggedInUser={loggedInUser} handleLogout={handleLogout}
         toggleCart={() => setShowCartModal(true)}
       />
       {loggedInUser && (
-        <div className="text-center mt-3">
+        <div className="text-center mt-3 welcome">
           <h3>Bienvenido, {loggedInUser}</h3>
-          <button className="btn btn-secondary" onClick={handleLogout}>
+          <button className="btn btn-logout" onClick={handleLogout}>
             Logout
           </button>
         </div>
