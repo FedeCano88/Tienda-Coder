@@ -9,6 +9,7 @@ import Confirmation from "./components/Common/Confirmation/Confirmation";
 import UserPanel from "./components/Pages/UserPanel";
 import Home from "./components/Pages/Home";
 import Courses from "./components/Pages/Courses";
+import CourseDetails from "./components/Pages/CourseDetails/CourseDetails"
 import Checkout from "./components/Common/Checkout/Checkout";
 import Swal from "sweetalert2";
 import Modal from "react-modal"; // Importar React Modal
@@ -130,6 +131,7 @@ function App() {
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/cursos" element={<Courses courses={courses} onAddToCart={addToCart} />} />
+        <Route path="/cursos/:slug" element={<CourseDetails />} /> {/* Ruta dinámica */}
         <Route path="/checkout" element={<Checkout cartItems={cart} onConfirmPurchase={confirmPurchase} />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/perfil" element={<UserPanel />} />
